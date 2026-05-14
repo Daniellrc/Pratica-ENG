@@ -2,70 +2,88 @@ import java.util.*;
 
 public class Pedido {
 
-    public List<String> produtos = new ArrayList<>();
-    public List<Double> precos = new ArrayList<>();
-    public List<Integer> quantidades = new ArrayList<>();
+    private final List<Produto> produtos = new ArrayList<>();
 
-    public String clienteNome;
-    public String clienteEmail;
-    public String clienteEndereco;
+    private String clienteNome;
+    private String clienteEmail;
+    private String clienteEndereco;
 
-    public double total;
-    public double frete;
-    public String status;
-
-    private RelatorioService relatorioService = new RelatorioService();
+    private double total;
+    private double frete;
+    private String status;
 
     public void adicionarItem(String nome, double preco, int qtd) {
-        produtos.add(nome);
-        precos.add(preco);
-        quantidades.add(qtd);
+        produtos.add(new Produto(nome, preco, qtd));
     }
 
-    public void atualizarEstoque() {
-        for (String p : produtos) {
-            System.out.println("Atualizando estoque de: " + p);
+    private void atualizarEstoque() {
+        for (Produto p : produtos) {
+            IO.println("Atualizando estoque de: " + p);
         }
     }
 
-    public void processarPagamento(String tipo) {
-        if (tipo.equals("cartao")) {
-            System.out.println("Pagamento cartão OK");
-        } else if (tipo.equals("boleto")) {
-            System.out.println("Boleto gerado");
-        } else if (tipo.equals("pix")) {
-            System.out.println("PIX enviado");
+    private void processarPagamento(String tipo) {
+        switch (tipo) {
+            case "cartao" -> IO.println("Pagamento cartão OK");
+            case "boleto" -> IO.println("Boleto gerado");
+            case "pix" -> IO.println("PIX enviado");
         }
     }
 
-    public void enviarNotificacao() {
-        System.out.println("Email enviado para " + clienteEmail);
+    private void enviarNotificacao() {
+        IO.println("Email enviado para " + clienteEmail);
     }
 
-    public void gerarRelatorio() {
-        System.out.println("Relatorio do pedido:");
-        for (String p : produtos) {
-            System.out.println(p);
+    private void gerarRelatorio() {
+        IO.println("Relatorio do pedido:");
+        for (Produto p : produtos) {
+            IO.println(p);
         }
-        System.out.println("Total: " + total);
+        IO.println("Total: " + total);
     }
 
-    public void salvarNoBanco() {
+    private void salvarNoBanco() {
         BancoDeDados.salvarPedido(this);
         BancoDeDados.salvarLog("Pedido salvo: " + clienteNome);
     }
 
     public void finalizar() {
-//        Passar lista de produtos como argumento
-//        Calculadora.calcularTotal();
-//        Calculadora.aplicarDesconto();
-//        Calculadora.calcularFrete();
-
+        total = Calculadora.calcularTotal(produtos);
+        total = Calculadora.aplicarDesconto(total);
+        total = Calculadora.calcularFrete(total, clienteEndereco);
         atualizarEstoque();
         processarPagamento("cartao");
         enviarNotificacao();
         gerarRelatorio();
         salvarNoBanco();
         status = "FINALIZADO";
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public double getFrete() {
+        return frete;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setClienteEndereco(String clienteEndereco) {
+        this.clienteEndereco = clienteEndereco;
+    }
+
+    public String getClienteNome() {
+        return clienteNome;
+    }
+
+    public void setClienteNome(String clienteNome) {
+        this.clienteNome = clienteNome;
+    }
+
+    public void setClienteEmail(String clienteEmail) {
+        this.clienteEmail = clienteEmail;
     }
 }

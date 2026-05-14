@@ -1,12 +1,10 @@
-public class Sistema {
-
-    public static void main(String[] args) {
+void main(String[] args) {
 
         Pedido p = new Pedido();
 
-        p.clienteNome = "Maria";
-        p.clienteEmail = "maria@email.com";
-        p.clienteEndereco = "SC";
+        p.setClienteNome("Maria");
+        p.setClienteEmail("maria@email.com");
+        p.setClienteEndereco("SC");
 
         p.adicionarItem("Notebook", 3000, 1);
         p.adicionarItem("Mouse", 100, 2);
@@ -18,7 +16,6 @@ public class Sistema {
         RelatorioService r = new RelatorioService();
         r.gerar(p);
 
-        System.out.println("Frete: " + p.frete);
-        System.out.println("Status: " + p.status);
-    }
+        IO.println("Frete: " + p.getFrete());
+        IO.println("Status: " + p.getStatus());
 }

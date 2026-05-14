@@ -1,11 +1,11 @@
 public class RelatorioService {
 
     public void gerar(Pedido p) {
-        System.out.println("Cliente: " + p.clienteNome);
-        System.out.println("Total com frete: " + (p.total + p.frete));
+        IO.println("Cliente: " + p.getClienteNome());
+        IO.println("Total com frete: " + (p.getTotal() + p.getFrete()));
 
-        if (p.total > 1000) {
-            System.out.println("Cliente VIP");
+        if (p.getTotal() > 1000) {
+            IO.println("Cliente VIP");
         }
     }
 }
