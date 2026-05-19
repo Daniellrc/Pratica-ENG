@@ -4,13 +4,16 @@ public class Pedido {
 
     private final List<Produto> produtos = new ArrayList<>();
 
-    private String clienteNome;
-    private String clienteEmail;
-    private String clienteEndereco;
+    private Cliente cliente;
 
     private double total;
     private double frete;
     private String status;
+
+    public Pedido(Cliente cliente) {
+        this.cliente = cliente;
+        this.status = "PENDENTE";
+    }
 
     public void adicionarItem(String nome, double preco, int qtd) {
         produtos.add(new Produto(nome, preco, qtd));
@@ -31,7 +34,7 @@ public class Pedido {
     }
 
     private void enviarNotificacao() {
-        IO.println("Email enviado para " + clienteEmail);
+        IO.println("Email enviado para " + cliente.email);
     }
 
     private void gerarRelatorio() {
@@ -44,13 +47,13 @@ public class Pedido {
 
     private void salvarNoBanco() {
         BancoDeDados.salvarPedido(this);
-        BancoDeDados.salvarLog("Pedido salvo: " + clienteNome);
+        BancoDeDados.salvarLog("Pedido salvo: " + cliente.nome);
     }
 
     public void finalizar() {
         total = Calculadora.calcularTotal(produtos);
         total = Calculadora.aplicarDesconto(total);
-        total = Calculadora.calcularFrete(total, clienteEndereco);
+        frete = Calculadora.calcularFrete(total, cliente.endereco);
         atualizarEstoque();
         processarPagamento("cartao");
         enviarNotificacao();
@@ -71,19 +74,7 @@ public class Pedido {
         return total;
     }
 
-    public void setClienteEndereco(String clienteEndereco) {
-        this.clienteEndereco = clienteEndereco;
-    }
-
-    public String getClienteNome() {
-        return clienteNome;
-    }
-
-    public void setClienteNome(String clienteNome) {
-        this.clienteNome = clienteNome;
-    }
-
-    public void setClienteEmail(String clienteEmail) {
-        this.clienteEmail = clienteEmail;
+    public Cliente getCliente(){
+        return cliente;
     }
 }

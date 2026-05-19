@@ -1,10 +1,8 @@
 void main(String[] args) {
 
-        Pedido p = new Pedido();
-
-        p.setClienteNome("Maria");
-        p.setClienteEmail("maria@email.com");
-        p.setClienteEndereco("SC");
+        Cliente cliente = new Cliente("Maria", "maria@email.com", "SC");
+       
+        Pedido p = new Pedido(cliente);
 
         p.adicionarItem("Notebook", 3000, 1);
         p.adicionarItem("Mouse", 100, 2);
