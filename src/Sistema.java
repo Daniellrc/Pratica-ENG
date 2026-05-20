@@ -1,19 +1,26 @@
-void main(String[] args) {
+public class Sistema {
 
-        Cliente cliente = new Cliente("Maria", "maria@email.com", "SC");
-       
-        Pedido p = new Pedido(cliente);
+        public static void main(String[] args) {
 
-        p.adicionarItem("Notebook", 3000, 1);
-        p.adicionarItem("Mouse", 100, 2);
+                Estoque estoque = new Estoque();
+                estoque.adicionarProduto(new Produto("Notebook", 3000, 10));
+                estoque.adicionarProduto(new Produto("Mouse", 100, 50));
 
-        p.finalizar();
+                estoque.listarProdutos();
 
-        BancoDeDados.salvarLog("Sistema finalizado");
+                Cliente cliente = new Cliente("Maria", "maria@email.com", "SC");
 
-        RelatorioService r = new RelatorioService();
-        r.gerar(p);
+                Pedido p = new Pedido(cliente, estoque, "Cartao");
 
-        IO.println("Frete: " + p.getFrete());
-        IO.println("Status: " + p.getStatus());
+
+                p.adicionarItem("Notebook", 3000, 1);
+                p.adicionarItem("Mouse", 100, 2);
+
+                p.finalizar();
+
+                RelatorioService r = new RelatorioService();
+                r.gerar(p);
+
+                BancoDeDados.salvarLog("Sistema finalizado");
+        }
 }

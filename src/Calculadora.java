@@ -26,4 +26,13 @@ public class Calculadora {
         }
         return total;
     }
+
+    public static String processarPagamento(String tipo) {
+        switch (tipo.toLowerCase()) {
+            case "cartao" -> tipo = "Pagamento cartão OK";
+            case "boleto" -> tipo = "Boleto gerado";
+            case "pix" -> tipo = "PIX enviado";
+        }
+        return tipo;
+    }
 }
