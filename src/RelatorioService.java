@@ -13,6 +13,7 @@ public class RelatorioService {
         IO.println("Subtotal: R$" + p.total);
         IO.println("Frete: R$" + p.frete);
         IO.println("Total com frete: R$" + (p.total + p.frete));
+        IO.println("Dados do pedido foram enviados para o email: " + p.cliente.email);
 
 
         if (p.total > 1000) {
